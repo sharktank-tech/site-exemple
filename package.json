@@ -1,0 +1,13 @@
+{
+  "name": "seu-projeto",
+  "version": "1.0.0",
+  "scripts": {
+    "build:css": "tailwindcss -i ./static/styles/tailwind.css -o ./static/styles/index.css --minify"
+  },
+  "dependencies": {
+    "tailwindcss": "^3.0.0"
+  },
+  "devDependencies": {
+    // Outras dependências de desenvolvimento, se houver
+  }
+}

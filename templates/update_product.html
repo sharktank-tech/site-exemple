@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="noindex"/>
+    <meta name="description" content="Administração dos produtos para Fast Links. Edite produtos existentes.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="static/images/sacolas-de-compras.png" type="image/x-icon">
+    <title>Atualizar Produto - Fast Links Produtos</title>
+    <link rel="stylesheet" href="static/styles/index.css">
+    <link rel="stylesheet" href="static/styles/admin.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <!-- Logo -->
+            <div class="logo">
+                <a href="/"><img src="static/images/logo.jpg" alt="Logo Gadgets Guru"></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="content">
+        <h1>Atualizar Produto</h1>
+        <form action="{{ url_for('update_product', product_id=produto.id) }}" method="post" enctype="multipart/form-data" class="admin-form">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" value="{{ produto.nome }}" required>
+
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao" rows="4" required>{{ produto.descricao }}</textarea>
+
+            <label for="preco">Preço:</label>
+            <input type="number" id="preco" name="preco" value="{{ produto.preco }}" step="0.01" required>
+
+            <label for="link">Link:</label>
+            <input type="url" id="link" name="link" value="{{ produto.link }}" required>
+
+            <label for="imagem">Imagem:</label>
+            <input type="file" id="imagem" name="imagem" accept="image/*">
+            <input type="hidden" name="current_image" value="{{ produto.imagem }}">
+
+            <button type="submit">Atualizar Produto</button>
+        </form>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>Contatos</h3>
+            <a href="https://wa.me/63984422453?text=Olá%20vim%20do%20site%20e%20preciso%20de%20ajuda" target="_blank">WhatsApp</a>
+            <a href="https://github.com/sharktank-tech">Contato Dev</a>
+            <a href="/sobre">Sobre</a>
+            <p>&copy; 2024 Fast Links Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
