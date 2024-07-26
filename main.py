@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 # Dados de autenticação simples
 USERNAME = 'netolx0885@gmail.com'
-PASSWORD = '123456'
+PASSWORD = '123412'
 
 # Carregar o modelo de língua do spaCy
 nlp = spacy.load('pt_core_news_sm')
