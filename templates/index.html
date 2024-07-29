@@ -36,6 +36,9 @@
             <li><a href="/produtos?query=Colares">Colares</a></li>
             <li><a href="/produtos?query=Brincos">Brincos</a></li>
             <li><a href="/sobre">Sobre</a></li>
+            {% if 'logged_in' in session %}
+                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            {% endif %}
         </ul>
     </nav>
 
