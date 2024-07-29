@@ -14,7 +14,7 @@ body {
 .header {
     background-color: #0a2799;
     color: white;
-    padding: 25px 0; /* Reduzido o padding superior e inferior */
+    padding: 20px 0; /* Ajustado para melhor visualização */
     position: relative; /* Necessário para posicionamento absoluto dos elementos internos */
 }
 
@@ -36,7 +36,7 @@ body {
 }
 
 .logo img {
-    height: 100px; /* Aumenta o tamanho da logo */
+    height: 80px; /* Ajuste o tamanho da logo */
 }
 
 /* Estilos para a Barra de Pesquisa */
@@ -77,32 +77,36 @@ body {
     flex: 1; /* Faz com que o conteúdo principal ocupe o espaço disponível */
 }
 
-.content h1 {
+.content h2 {
     color: #c5a402;
     font-size: 24px;
     margin-bottom: 10px;
 }
 
-
-
 /* Estilos para os Produtos */
-.product {
+.produtos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.produto-item {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 20px;
     padding: 20px;
-    display: inline-block;
-    width: calc(25% - 40px); /* Ajusta a largura dos produtos para duas colunas em dispositivos móveis */
+    width: calc(25% - 40px); /* Ajusta a largura dos produtos para quatro colunas em desktops */
     box-sizing: border-box;
-    vertical-align: top;
-    text-align: left; /* Centraliza o texto e as imagens */
-    height: 440px; /* Autura fixa */
+    text-align: center; /* Centraliza o texto e as imagens */
+    height: 440px; /* Altura fixa */
     overflow: hidden; /* Garante que o conteúdo não exceda o tamanho do container */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-
-.product img {
+.produto-item img {
     max-width: 100%;
     height: 200px; /* Define uma altura fixa para todas as imagens */
     object-fit: cover; /* Mantém a proporção e cobre a área definida */
@@ -110,20 +114,21 @@ body {
     padding-bottom: 15px;
 }
 
-.product h2 {
+.produto-item h3 {
     font-size: 20px;
     margin: 15px 0;
     color: #333;
 }
 
-.product p {
+.produto-item p {
     font-size: 16px;
     color: #666;
 }
 
-.product a {
+.produto-item a {
     text-decoration: none;
-    color: inherit;
+    color: #0a2799;
+    font-weight: bold;
 }
 
 /* Estilos para o preço */
@@ -131,13 +136,11 @@ body {
     font-size: 12px;
     font-weight: bold;
     color: #333;
-    display: inline; /* Faz com que o label e o preço fiquem na mesma linha */
 }
 
 .price {
     font-size: 18px;
-    color: #000000; /* Estiliza o preço em amarelo */
-    display: inline; /* Garante que o preço fique na mesma linha que o label */
+    color: #000000; /* Estiliza o preço */
     font-weight: italic;
 }
 
@@ -168,12 +171,11 @@ nav ul li a {
 
 nav ul li a:hover {
     color: #ff4000;
-    text-decoration: none;
 }
 
 /* Rodapé fixo no final da página */
 .footer {
-    background-color: #787373;
+    background-color: #000000;
     color: white;
     padding: 10px 0;
     text-align: center;
@@ -206,30 +208,23 @@ nav ul li a:hover {
 /* Media Query para dispositivos móveis */
 @media (max-width: 600px) {
 
-    .content h1 {
-        font-size: 15px;
-    }
-    
-    nav ul li {
-        margin: 0 1px; /* Ajusta o espaçamento entre os links para dispositivos móveis */
-    }
-
-    .product h2 {
+    .content h2 {
         font-size: 15px;
     }
 
-    .product p {
-        font-size: 12px;
-    }
-    
-    .product {
-        height: 300px;
-        margin: 1px;
-        padding: 5px;
-        width: calc(50% - 5px); /* Ajusta a largura dos produtos para uma coluna em dispositivos móveis */
+    .produtos {
+        flex-direction: column;
+        align-items: center;
     }
 
-    .product img {
+    .produto-item {
+        width: calc(100% - 20px); /* Ajusta a largura dos produtos para uma coluna em dispositivos móveis */
+        height: auto; /* Ajusta a altura para permitir flexibilidade */
+        margin: 10px 0;
+        padding: 10px;
+    }
+
+    .produto-item img {
         height: 100px; /* Ajusta a altura das imagens para dispositivos móveis */
     }
 
@@ -256,6 +251,7 @@ nav ul li a:hover {
     .footer-content {
         gap: 1px;
     }
+    
 
     .footer-content a {
         font-size: 12px;
@@ -263,7 +259,23 @@ nav ul li a:hover {
 
     .footer-content p {
         margin-top: 1px;
-        font-size: 14px;
+        font-size: 12px;
+    }
+
+    /* Estilos para a barra de navegação */
+    nav {
+        background-color: #1F2B46;
+        padding: 1px 0;
+        font-size: 15px;
+    }
+
+
+    nav ul li {
+        margin: 0 5px; /* Espaçamento padrão para desktops */
+    }
+
+    nav ul li a {
+        padding: 1px;
     }
 
 }

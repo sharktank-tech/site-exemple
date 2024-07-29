@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="robots" content="noindex"/>
-    <meta name="description" content="Administração dos produtos para Fast Links. Adicione e gerencie produtos de forma eficiente.">
+    <meta name="description" content="Administração dos produtos para TudoHon. Adicione e gerencie produtos de forma eficiente.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="static/images/logo.png" type="image/x-icon">
-    <title>TudoHon Produtos - Admin</title>
-    <link rel="stylesheet" href="static/styles/index.css">
-    <link rel="stylesheet" href="static/styles/admin.css">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/x-icon">
+    <title>TudoHon - Administração de Produtos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin.css') }}">
 </head>
 <body>
     <!-- Cabeçalho com a Barra de Pesquisa -->
@@ -17,24 +17,27 @@
         <div class="header-content">
             <!-- Logo -->
             <div class="logo">
-                <a href="/"><img src="static/images/logo.png" alt="Logo Gadgets Guru"></a>
+                <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo TudoHon"></a>
             </div>
             <!-- Barra de Pesquisa -->
-            <form class="search-container" method="get" action="/produtos">
-                <input type="text" name="query" placeholder="Pesquisar..." class="search-input">
+            <form class="search-container" method="get" action="{{ url_for('produtos') }}">
+                <input type="text" name="query" placeholder="Pesquisar..." value="{{ query }}" class="search-input">
                 <button class="search-button" type="submit">Buscar</button>
             </form>
         </div>
     </header>
 
-    <!-- Barra de navegação -->
+    <!-- Barra de Navegação -->
     <nav>
         <ul>
-            <li><a href="/produtos?query=Fones">Fones</a></li>
-            <li><a href="/produtos?query=Relógios">Relógios</a></li>
-            <li><a href="/produtos?query=Colares">Colares</a></li>
-            <li><a href="/produtos?query=Brincos">Brincos</a></li>
-            <li><a href="/sobre">Sobre</a></li>
+            <li><a href="{{ url_for('produtos', query='Fones') }}">Fones</a></li>
+            <li><a href="{{ url_for('produtos', query='Relógios') }}">Relógios</a></li>
+            <li><a href="{{ url_for('produtos', query='Colares') }}">Colares</a></li>
+            <li><a href="{{ url_for('produtos', query='Brincos') }}">Brincos</a></li>
+            <li><a href="{{ url_for('sobre') }}">Sobre</a></li>
+            {% if 'logged_in' in session %}
+                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            {% endif %}
         </ul>
     </nav>
 
@@ -42,50 +45,25 @@
     <main class="content">
         <div class="admin-section">
             <h2>Adicionar Novo Produto</h2>
-            <form class="admin-form" method="POST">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" required>
-
-                <label for="descricao">Descrição:</label>
-                <textarea id="descricao" name="descricao" required></textarea>
-
-                <label for="preco">Preço:</label>
-                <input type="number" id="preco" name="preco" step="0.01" required>
-
-                <label for="link">Link:</label>
-                <input type="url" id="link" name="link" required>
-
-                <label for="imagem">URL da Imagem:</label>
-                <input type="text" id="imagem" name="imagem">
-
+            <form class="admin-form" method="POST" enctype="multipart/form-data">
+                <input type="text" name="nome" placeholder="Nome" required>
+                <textarea name="descricao" placeholder="Descrição" required></textarea>
+                <input type="text" name="preco" placeholder="Preço" required>
+                <input type="text" name="link" placeholder="Link" required>
+                <input type="file" name="imagem" accept="image/*">
                 <button type="submit" name="add">Adicionar Produto</button>
             </form>
         </div>
 
         <div class="admin-section">
             <h2>Atualizar Produto</h2>
-            <form class="admin-form" method="POST">
-                <label for="id">ID do Produto:</label>
-                <input type="text" id="id" name="id" required>
-
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" required>
-
-                <label for="descricao">Descrição:</label>
-                <textarea id="descricao" name="descricao" required></textarea>
-
-                <label for="preco">Preço:</label>
-                <input type="number" id="preco" name="preco" step="0.01" required>
-
-                <label for="link">Link:</label>
-                <input type="url" id="link" name="link" required>
-
-                <label for="current_image">Imagem Atual (URL):</label>
-                <input type="text" id="current_image" name="current_image">
-
-                <label for="imagem">Nova Imagem (URL):</label>
-                <input type="text" id="imagem" name="imagem">
-
+            <form class="admin-form" method="POST" enctype="multipart/form-data">
+                <input type="number" name="id" placeholder="ID" required>
+                <input type="text" name="nome" placeholder="Nome" required>
+                <textarea name="descricao" placeholder="Descrição" required></textarea>
+                <input type="text" name="preco" placeholder="Preço" required>
+                <input type="text" name="link" placeholder="Link" required>
+                <input type="file" name="imagem" accept="image/*">
                 <button type="submit" name="update">Atualizar Produto</button>
             </form>
         </div>
@@ -93,35 +71,28 @@
         <div class="admin-section">
             <h2>Deletar Produto</h2>
             <form class="admin-form" method="POST">
-                <label for="id">ID do Produto:</label>
-                <input type="text" id="id" name="id" required>
-
+                <input type="number" name="id" placeholder="ID" required>
                 <button type="submit" name="delete">Deletar Produto</button>
             </form>
         </div>
 
         <div class="admin-section">
             <h2>Produtos Cadastrados</h2>
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Preço</th>
-                        <th>Link</th>
-                        <th>Imagem</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for produto in produtos %}
-                    <tr>
-                        <td>{{ produto.id }}</td>
-                        <td>R$ {{ produto.preco }}</td>
-                        <td><a href="{{ produto.link }}" target="_blank" class="product-link">Ver Produto</a></td>
-                        <td><img src="{{ produto.imagem }}" alt="Imagem do Produto" class="product-image"></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="produto-lista">
+                {% for produto in produtos %}
+                    <div class="produto-item">
+                        {% if produto['imagem'] %}
+                            <img src="{{ url_for('get_image', id=produto['id']) }}" alt="{{ produto['nome'] }}" class="product-image">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/default-product.jpg') }}" alt="{{ produto['nome'] }}" class="product-image">
+                        {% endif %}
+                        <h2>{{ produto['nome'] }}</h2>
+                        <p>{{ produto['descricao'] }}</p>
+                        <p>Preço: R$ {{ produto['preco'] }}</p>
+                        <a href="{{ produto['link'] }}" target="_blank">Comprar</a>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </main>
 
@@ -131,7 +102,7 @@
             <h3>Contatos</h3>
             <a href="https://wa.me/63984422453?text=Olá%20vim%20do%20site%20e%20preciso%20de%20ajuda" target="_blank">WhatsApp</a>
             <a href="https://github.com/sharktank-tech">Contato Dev</a>
-            <a href="/sobre">Sobre</a>
+            <a href="{{ url_for('sobre') }}">Sobre</a>
             <p>&copy; 2024 TudoHon Todos os direitos reservados.</p>
         </div>
     </footer>

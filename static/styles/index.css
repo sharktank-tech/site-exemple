@@ -178,9 +178,9 @@ nav ul li a:hover {
 
 /* Rodapé fixo no final da página */
 .footer {
-    background-color: #787373;
+    background-color: #000000;
     color: white;
-    padding: 10px 0;
+    padding: 5px 0;
     text-align: center;
     width: 100%;
 }

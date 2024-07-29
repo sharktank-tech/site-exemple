@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, Response
 import os
 import logging
 from werkzeug.utils import secure_filename
 import spacy
-from typing import List
+from typing import List, Optional
 from manage import inserir, atualizar, deletar, tudo
 
 app = Flask(__name__)
@@ -24,11 +24,9 @@ PASSWORD = '123412'
 # Carregar o modelo de língua do spaCy
 nlp = spacy.load('pt_core_news_sm')
 
-def allowed_file(filename: str) -> bool:
+def allowed_file(filename: Optional[str]) -> bool:
     """Verifica se o arquivo tem uma extensão permitida."""
-    if filename:
-        return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
-    return False
+    return filename is not None and '.' in filename and filename.rsplit('.', 1)[-1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 def get_db_connection() -> List[dict]:
     """Retorna todos os produtos do banco de dados."""
@@ -43,7 +41,7 @@ def lemmatize_query(query: str) -> str:
 def index():
     return render_template("index.html")
 
-@app.route('/sobre')
+@app.route('/sobre', endpoint='sobre')
 def about():
     return render_template("sobre.html")
 
@@ -68,7 +66,14 @@ def produtos():
 
     return render_template("produtos.html", produtos=produtos, query=query)
 
-    
+@app.route('/imagem/<int:id>')
+def get_image(id: int):
+    produtos = get_db_connection()
+    produto = next((p for p in produtos if p['id'] == id), None)
+    if produto and produto['imagem']:
+        return Response(produto['imagem'], mimetype=f'image/{produto["imagem_ext"]}')
+    return 'Imagem não encontrada', 404
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -83,20 +88,21 @@ def login():
                 return render_template('login.html', error='Usuário ou senha inválidos')
         except Exception as e:
             logger.error(f"Erro ao processar login: {e}")
-            return render_template('login.html', error='Erro ao processar o login')
+            return render_template('login.html', error='Erro ao processar login')
 
     return render_template('login.html')
-
 
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    if 'logged_in' not in session or not session['logged_in']:
+    if 'logged_in' not in session:
         return redirect(url_for('login'))
+
+    produtos = get_db_connection()
 
     if request.method == 'POST':
         try:
@@ -107,43 +113,49 @@ def admin():
                 link = request.form['link']
                 imagem = request.files.get('imagem')
 
-                imagem_path = ''
-                if imagem and imagem.filename and allowed_file(imagem.filename):
-                    imagem_filename = secure_filename(imagem.filename)
-                    imagem_path = os.path.join(app.config['UPLOAD_FOLDER'], imagem_filename)
-                    imagem.save(imagem_path)
+                if imagem and allowed_file(imagem.filename):
+                    imagem_filename = imagem.filename
+                    imagem_ext = imagem_filename.rsplit('.', 1)[-1].lower() if imagem_filename else ''
+                    imagem_blob = imagem.read() if imagem_filename else None
+                    imagem_filename = secure_filename(imagem_filename) if imagem_filename else ''
+                else:
+                    imagem_ext = ''
+                    imagem_blob = None
+                    imagem_filename = ''
 
-                inserir(nome=nome, descricao=descricao, preco=preco, link=link, imagem=imagem_path)
+                inserir(None, nome, descricao, preco, link, imagem_blob, imagem_ext)
+                return redirect(url_for('admin'))
 
-            elif 'update' in request.form:
-                product_id = request.form['id']
+            if 'update' in request.form:
+                id = int(request.form['id'])
                 nome = request.form['nome']
                 descricao = request.form['descricao']
                 preco = request.form['preco']
                 link = request.form['link']
                 imagem = request.files.get('imagem')
 
-                current_image = request.form.get('current_image', '')
-                imagem_path = current_image if current_image else ''
-                if imagem and imagem.filename and allowed_file(imagem.filename):
-                    imagem_filename = secure_filename(imagem.filename)
-                    imagem_path = os.path.join(app.config['UPLOAD_FOLDER'], imagem_filename)
-                    imagem.save(imagem_path)
+                if imagem and allowed_file(imagem.filename):
+                    imagem_filename = imagem.filename
+                    imagem_ext = imagem_filename.rsplit('.', 1)[-1].lower() if imagem_filename else ''
+                    imagem_blob = imagem.read() if imagem_filename else None
+                    imagem_filename = secure_filename(imagem_filename) if imagem_filename else ''
+                else:
+                    imagem_ext = ''
+                    imagem_blob = None
+                    imagem_filename = ''
 
-                atualizar(id=product_id, nome=nome, descricao=descricao, preco=preco, link=link, imagem=imagem_path)
+                atualizar(id, nome, descricao, preco, link, imagem_blob, imagem_ext)
+                return redirect(url_for('admin'))
 
-            elif 'delete' in request.form:
-                product_id = request.form['id']
-                deletar(id=product_id)
+            if 'delete' in request.form:
+                id = int(request.form['id'])
+                deletar(id)
+                return redirect(url_for('admin'))
 
         except Exception as e:
-            logger.error(f"Erro ao processar dados: {e}")
+            logger.error(f"Erro ao processar admin: {e}")
 
-        return redirect(url_for('admin'))
+    return render_template('admin.html', produtos=produtos)
 
-    produtos = get_db_connection()
-
-    return render_template("admin.html", produtos=produtos)
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(debug=True)

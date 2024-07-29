@@ -1,65 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="fav icon" href="static/images/logo.png">
-        <title>Resultados da Pesquisa - FastLinks</title>
-        <link rel="stylesheet" href="static/styles/produtos.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="noindex"/>
+    <meta name="description" content="Encontre e explore uma ampla gama de produtos em TudoHon. Pesquisa fácil e navegação intuitiva.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/x-icon">
+    <title>TudoHon - Produtos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/produtos.css') }}">
+</head>
 <body>
+    <!-- Cabeçalho com a Barra de Pesquisa -->
     <header class="header">
         <div class="header-content">
+            <!-- Logo -->
             <div class="logo">
-                <a href="/"><img src="static/images/logo.png" alt="Logo Gadgets Guru"></a>
+                <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo TudoHon"></a>
             </div>
-            <form class="search-container" method="get" action="/produtos">
-                <input type="text" name="query" value="{{ query }}" placeholder="Pesquisar..." class="search-input">
+            <!-- Barra de Pesquisa -->
+            <form class="search-container" method="get" action="{{ url_for('produtos') }}">
+                <input type="text" name="query" placeholder="Pesquisar..." value="{{ query }}" class="search-input">
                 <button class="search-button" type="submit">Buscar</button>
             </form>
         </div>
     </header>
 
-    <!-- Barra de navegação -->
+    <!-- Barra de Navegação -->
     <nav>
         <ul>
-            <li><a href="/produtos?query=Fones">Fones</a></li>
-            <li><a href="/produtos?query=Relógios">Relógios</a></li>
-            <li><a href="/produtos?query=Colares">Colares</a></li>
-            <li><a href="/produtos?query=Brincos">Brincos</a></li>
-            <li><a href="/sobre">Sobre</a></li>
+            <li><a href="{{ url_for('produtos', query='Fones') }}">Fones</a></li>
+            <li><a href="{{ url_for('produtos', query='Relógios') }}">Relógios</a></li>
+            <li><a href="{{ url_for('produtos', query='Colares') }}">Colares</a></li>
+            <li><a href="{{ url_for('produtos', query='Brincos') }}">Brincos</a></li>
+            <li><a href="{{ url_for('sobre') }}">Sobre</a></li>
+            {% if 'logged_in' in session %}
+                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            {% endif %}
         </ul>
     </nav>
 
+    <!-- Conteúdo Principal -->
     <main class="content">
-        <h1>Resultados para "{{ query }}"</h1>
-        <div class="product-list">
-            {% if produtos %}
+        <section class="produto-lista">
+            <h2>Produtos Disponíveis</h2>
+            <div class="produtos">
                 {% for produto in produtos %}
-                    <div class="product">
-                        <a href="{{ produto['link'] }}">
-                            <img src="{{ produto['imagem'] }}" alt="{{ produto['nome'] }}">
-                            <h2>{{ produto['nome'] }}</h2>
+                    <div class="produto-item">
+                        <div class="produto-info">
+                            {% if produto['imagem'] %}
+                                <img src="{{ url_for('get_image', id=produto['id']) }}" alt="{{ produto['nome'] }}" class="product-image">
+                            {% else %}
+                                <img src="{{ url_for('static', filename='images/default-product.jpg') }}" alt="{{ produto['nome'] }}" class="product-image">
+                            {% endif %}
+                            <h3>{{ produto['nome'] }}</h3>
                             <p>{{ produto['descricao'] }}</p>
-                            <div class="label-price">R$<div class="price">{{ produto['preco'] }}</div></div>
-                        </a>
+                            <p><span class="label-price">Preço:</span> <span class="price">R$ {{ produto['preco'] }}</span></p>
+                            <a href="{{ produto['link'] }}" target="_blank">Comprar</a>
+                        </div>
                     </div>
                 {% endfor %}
-            {% else %}
-                <p>Nenhum produto encontrado para "{{ query }}"</p>
-            {% endif %}
-        </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Rodapé fixo -->
+    <!-- Rodapé -->
     <footer class="footer">
         <div class="footer-content">
             <h3>Contatos</h3>
             <a href="https://wa.me/63984422453?text=Olá%20vim%20do%20site%20e%20preciso%20de%20ajuda" target="_blank">WhatsApp</a>
             <a href="https://github.com/sharktank-tech">Contato Dev</a>
-            <a href="/sobre">Sobre</a>
-            <p>&copy; 2024 Fast Links Todos os direitos reservados.</p>
+            <a href="{{ url_for('sobre') }}">Sobre</a>
+            <p>&copy; 2024 TudoHon Todos os direitos reservados.</p>
         </div>
     </footer>
 </body>

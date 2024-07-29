@@ -163,9 +163,9 @@ nav ul li a:hover {
 
 /* Rodapé fixo no final da página */
 .footer {
-    background-color: #787373;
+    background-color: #000000;
     color: white;
-    padding: 10px 0;
+    padding: 5px 0;
     text-align: center;
     width: 100%;
 }
@@ -192,6 +192,7 @@ nav ul li a:hover {
     font-size: 14px;
     color: #aaaaaa;
 }
+
 
 /* Estilos para a tabela de produtos */
 .admin-table {
@@ -242,10 +243,22 @@ nav ul li a:hover {
 
 /* Media Query para dispositivos móveis */
 @media (max-width: 600px) {
-    nav ul li {
-        margin: 0 1px; /* Ajusta o espaçamento entre os links para dispositivos móveis */
+    
+    /* Estilos para a barra de navegação */
+    nav {
+        background-color: #1F2B46;
+        padding: 1px 0;
+        font-size: 15px;
     }
 
+
+    nav ul li {
+        margin: 0 5px; /* Espaçamento padrão para desktops */
+    }
+
+    nav ul li a {
+        padding: 1px;
+    }
 
     .search-input {
         width: 100%; /* Faz com que o campo de pesquisa ocupe toda a largura disponível em dispositivos móveis */
@@ -257,12 +270,14 @@ nav ul li a:hover {
     }
 
     .logo {
-        margin-top: 20px; /* Espaço acima da logo */
+        gap: 5px;
+        margin-top: 40px; /* Espaço acima da logo */
         position: static; /* Remove o posicionamento absoluto em dispositivos móveis */
+        margin-bottom: 1px; /* Espaço abaixo da logo */
     }
 
     .logo img {
-        height: 50px; /* Ajuste o tamanho do logo para dispositivos móveis, se necessário */
+        height: 100px; /* Ajuste o tamanho do logo para dispositivos móveis */
     }
 
     .admin-form {
@@ -286,4 +301,19 @@ nav ul li a:hover {
         padding: 8px;
         white-space: nowrap; /* Impede quebra de linha dentro das células da tabela */
     }
+
+
+    .footer-content {
+        gap: 1px;
+    }
+
+    .footer-content a {
+        font-size: 12px;
+    }
+
+    .footer-content p {
+        margin-top: 1px;
+        font-size: 14px;
+    }
+
 }
