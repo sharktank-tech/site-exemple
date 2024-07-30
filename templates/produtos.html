@@ -26,16 +26,16 @@
         </div>
     </header>
 
-    <!-- Barra de Navegação -->
+    <!-- Barra de navegação -->
     <nav>
         <ul>
-            <li><a href="{{ url_for('produtos', query='Fones') }}">Fones</a></li>
-            <li><a href="{{ url_for('produtos', query='Relógios') }}">Relógios</a></li>
-            <li><a href="{{ url_for('produtos', query='Colares') }}">Colares</a></li>
-            <li><a href="{{ url_for('produtos', query='Brincos') }}">Brincos</a></li>
-            <li><a href="{{ url_for('sobre') }}">Sobre</a></li>
+            <li><a href="/produtos?query=Detox">Lift Detox</a></li>
+            <li><a href="/produtos?query=Croche">Crochê</a></li>
+            <li><a href="/produtos?query=Gold Card">Gold Card</a></li>
             {% if 'logged_in' in session %}
                 <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Entrar</a></li
             {% endif %}
         </ul>
     </nav>

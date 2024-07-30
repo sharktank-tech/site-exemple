@@ -193,7 +193,6 @@ nav ul li a:hover {
     color: #aaaaaa;
 }
 
-
 /* Estilos para a tabela de produtos */
 .admin-table {
     width: 100%;
@@ -241,16 +240,41 @@ nav ul li a:hover {
     object-fit: cover;
 }
 
+
+/* Estilos para mensagens de confirmação */
+.flash-messages {
+    margin: 20px auto;
+    padding: 10px;
+    max-width: 800px;
+}
+
+.flash-message.success {
+    background-color: #d4edda;
+    color: #14cc3f;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.flash-message.error {
+    background-color: #f8d7da;
+    color: #ff0019;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+
 /* Media Query para dispositivos móveis */
 @media (max-width: 600px) {
-    
+
     /* Estilos para a barra de navegação */
     nav {
         background-color: #1F2B46;
         padding: 1px 0;
         font-size: 15px;
     }
-
 
     nav ul li {
         margin: 0 5px; /* Espaçamento padrão para desktops */
@@ -301,7 +325,6 @@ nav ul li a:hover {
         padding: 8px;
         white-space: nowrap; /* Impede quebra de linha dentro das células da tabela */
     }
-
 
     .footer-content {
         gap: 1px;

@@ -27,22 +27,30 @@
         </div>
     </header>
 
-    <!-- Barra de Navegação -->
+    <!-- Barra de navegação -->
     <nav>
         <ul>
-            <li><a href="{{ url_for('produtos', query='Fones') }}">Fones</a></li>
-            <li><a href="{{ url_for('produtos', query='Relógios') }}">Relógios</a></li>
-            <li><a href="{{ url_for('produtos', query='Colares') }}">Colares</a></li>
-            <li><a href="{{ url_for('produtos', query='Brincos') }}">Brincos</a></li>
-            <li><a href="{{ url_for('sobre') }}">Sobre</a></li>
-            {% if 'logged_in' in session %}
-                <li><a href="{{ url_for('admin') }}">Admin</a></li>
-            {% endif %}
+            <li><a href="/produtos?query=Fones">Lift Detox</a></li>
+            <li><a href="/produtos?query=Relógios">Crohê</a></li>
+            <li><a href="/produtos?query=Colares">Gold Card</a></li>
         </ul>
     </nav>
 
     <!-- Conteúdo Principal -->
     <main class="content">
+        <!-- Área de Mensagens -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <div class="admin-section">
             <h2>Adicionar Novo Produto</h2>
             <form class="admin-form" method="POST" enctype="multipart/form-data">
@@ -78,21 +86,34 @@
 
         <div class="admin-section">
             <h2>Produtos Cadastrados</h2>
-            <div class="produto-lista">
-                {% for produto in produtos %}
-                    <div class="produto-item">
-                        {% if produto['imagem'] %}
-                            <img src="{{ url_for('get_image', id=produto['id']) }}" alt="{{ produto['nome'] }}" class="product-image">
-                        {% else %}
-                            <img src="{{ url_for('static', filename='images/default-product.jpg') }}" alt="{{ produto['nome'] }}" class="product-image">
-                        {% endif %}
-                        <h2>{{ produto['nome'] }}</h2>
-                        <p>{{ produto['descricao'] }}</p>
-                        <p>Preço: R$ {{ produto['preco'] }}</p>
-                        <a href="{{ produto['link'] }}" target="_blank">Comprar</a>
-                    </div>
-                {% endfor %}
-            </div>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Imagem</th>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Link</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produto in produtos %}
+                        <tr>
+                            <td>
+                                {% if produto['imagem'] %}
+                                    <img src="{{ url_for('get_image', id=produto['id']) }}" alt="{{ produto['nome'] }}" class="product-image">
+                                {% else %}
+                                    <img src="{{ url_for('static', filename='images/default-product.jpg') }}" alt="{{ produto['nome'] }}" class="product-image">
+                                {% endif %}
+                            </td>
+                            <td>{{ produto['nome'] }}</td>
+                            <td>R$ {{ produto['preco'] }}</td>
+                            <td><a href="{{ produto['link'] }}" target="_blank" class="product-link">Link</a></td>
+                            <td>{{ produto['id'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </main>
 

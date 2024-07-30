@@ -31,13 +31,13 @@
     <!-- Barra de navegação -->
     <nav>
         <ul>
-            <li><a href="/produtos?query=Fones">Fones</a></li>
-            <li><a href="/produtos?query=Relógios">Relógios</a></li>
-            <li><a href="/produtos?query=Colares">Colares</a></li>
-            <li><a href="/produtos?query=Brincos">Brincos</a></li>
-            <li><a href="/sobre">Sobre</a></li>
+            <li><a href="/produtos?query=Detox">Lift Detox</a></li>
+            <li><a href="/produtos?query=Croche">Crochê</a></li>
+            <li><a href="/produtos?query=Gold Card">Gold Card</a></li>
             {% if 'logged_in' in session %}
                 <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Entrar</a></li
             {% endif %}
         </ul>
     </nav>
@@ -48,7 +48,9 @@
         <div class="slideshow-container">
             <!-- Slides para desktop -->
             <div class="mySlides fade desktop-slide">
-                <img src="static/images/slides/pc/croche.jpg.png" style="width:100%">
+                <a href="https://app.monetizze.com.br/r/ARF24593382">
+                    <img src="static/images/slides/pc/croche.jpg.png" style="width:100%">
+                </a>
                 <!-- Botão anterior -->
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                 <!-- Botão próximo -->
@@ -56,15 +58,20 @@
             </div>
 
             <div class="mySlides fade desktop-slide">
-                <img src="static/images/slides/pc/gold-card.png" style="width:100%">
+                <a href="https://app.monetizze.com.br/r/ABA24593351">
+                    <img src="static/images/slides/pc/gold-card.png" style="width:100%">
+                </a>
                 <!-- Botão anterior -->
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                 <!-- Botão próximo -->
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
             </div>
 
+
             <div class="mySlides fade desktop-slide">
-                <img src="static/images/slides/pc/lift-detox.png" style="width:100%">
+                <a href="https://app.monetizze.com.br/r/AVB19237835">
+                    <img src="static/images/slides/pc/lift-detox.png" style="width:100%">
+                </a>
                 <!-- Botão anterior -->
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                 <!-- Botão próximo -->

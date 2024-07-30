@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, Response
+from flask import Flask, render_template, request, redirect, url_for, session, flash, Response
 import os
 import logging
 from werkzeug.utils import secure_filename
@@ -85,10 +85,10 @@ def login():
                 session['logged_in'] = True
                 return redirect(url_for('admin'))
             else:
-                return render_template('login.html', error='Usuário ou senha inválidos')
+                flash('Usuário ou senha inválidos', 'error')
         except Exception as e:
             logger.error(f"Erro ao processar login: {e}")
-            return render_template('login.html', error='Erro ao processar login')
+            flash('Erro ao processar login', 'error')
 
     return render_template('login.html')
 
@@ -124,6 +124,7 @@ def admin():
                     imagem_filename = ''
 
                 inserir(None, nome, descricao, preco, link, imagem_blob, imagem_ext)
+                flash('Produto adicionado com sucesso!', 'success')
                 return redirect(url_for('admin'))
 
             if 'update' in request.form:
@@ -145,15 +146,18 @@ def admin():
                     imagem_filename = ''
 
                 atualizar(id, nome, descricao, preco, link, imagem_blob, imagem_ext)
+                flash('Produto atualizado com sucesso!', 'success')
                 return redirect(url_for('admin'))
 
             if 'delete' in request.form:
                 id = int(request.form['id'])
                 deletar(id)
+                flash('Produto deletado com sucesso!', 'success')
                 return redirect(url_for('admin'))
 
         except Exception as e:
             logger.error(f"Erro ao processar admin: {e}")
+            flash('Erro ao processar a operação', 'error')
 
     return render_template('admin.html', produtos=produtos)
 
