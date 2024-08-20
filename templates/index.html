@@ -32,7 +32,7 @@
     <!-- Barra de navegação -->
     <nav class="bg-blue-900">
         <ul class="flex justify-center space-x-4 text-white py-2">
-            <li><a href="/produtos?query=Detox" class="hover:text-orange-500">Lift Detox</a></li>
+            <li><a href="/produtos?query=Lift Detox" class="hover:text-orange-500">Lift Detox</a></li>
             <li><a href="/produtos?query=Croche" class="hover:text-orange-500">Crochê</a></li>
             <li><a href="/produtos?query=Gold Card" class="hover:text-orange-500">Gold Card</a></li>
             {% if 'logged_in' in session %}
@@ -94,13 +94,14 @@
     </main>
 
     <!-- Rodapé fixo -->
-    <footer class="bg-black text-white text-center p-2">
-        <div class="flex flex-col items-center gap-1">
-            <h3 class="text-lg font-bold">Contatos</h3>
-            <a href="https://wa.me/63984422453?text=Olá%20vim%20do%20site%20e%20preciso%20de%20ajuda" target="_blank" class="hover:underline">WhatsApp</a>
-            <a href="https://github.com/sharktank-tech" target="_blank" class="hover:underline">Contato Dev</a>
-            <a href="/sobre" class="hover:underline">Sobre</a>
-            <p class="mt-4 text-sm text-gray-400">&copy; 2024 TudoHon Todos os direitos reservados.</p>
+    <footer class="bg-black text-white py-4">
+        <div class="container mx-auto text-center">
+            <h3 class="text-xl mb-2">Contatos</h3>
+            <div class="flex justify-center space-x-4 mb-2">
+                <a href="https://wa.me/63984422453?text=Olá%20vim%20do%20site%20e%20preciso%20de%20ajuda" target="_blank" class="hover:underline">WhatsApp</a>
+                <a href="https://github.com/sharktank-tech" class="hover:underline">GitHub</a>
+            </div>
+            <p class="text-sm">&copy; 2024 TudoHon. Todos os direitos reservados.</p>
         </div>
     </footer>
 
