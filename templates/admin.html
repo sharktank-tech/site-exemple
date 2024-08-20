@@ -1,49 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="robots" content="noindex"/>
-    <meta name="description" content="Administração dos produtos para TudoHon. Adicione e gerencie produtos de forma eficiente.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/x-icon">
-    <title>TudoHon - Administração de Produtos</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin.css') }}">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots" content="noindex"/>
+        <meta name="description" content="Encontre e explore uma ampla gama de produtos em TudoHon. Pesquisa fácil e navegação intuitiva.">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/x-icon">
+        <title>TudoHon - Produtos</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/produtos.css') }}">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
+
     <!-- Cabeçalho com a Barra de Pesquisa -->
-    <header class="header">
-        <div class="header-content">
+    <header class="bg-blue-900 text-black py-4">
+        <div class="flex items-center justify-center relative px-4">
             <!-- Logo -->
-            <div class="logo">
-                <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo TudoHon"></a>
+            <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+                <a href="/"><img src="static/images/logo.png" alt="Logo TudoHon" class="h-24"></a>
             </div>
             <!-- Barra de Pesquisa -->
-            <form class="search-container" method="get" action="{{ url_for('produtos') }}">
-                <input type="text" name="query" placeholder="Pesquisar..." value="{{ query }}" class="search-input">
-                <button class="search-button" type="submit">Buscar</button>
+            <form class="flex-grow flex justify-center" method="get" action="{{ url_for('produtos') }}">
+                <input type="text" name="query" placeholder="Pesquisar..." value="{{ query }}" class="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 flex-grow max-w-xl">
+                <button class="bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" type="submit">Buscar</button>
             </form>
         </div>
     </header>
 
     <!-- Barra de navegação -->
-    <nav>
-        <ul>
-            <li><a href="/produtos?query=Fones">Lift Detox</a></li>
-            <li><a href="/produtos?query=Relógios">Crohê</a></li>
-            <li><a href="/produtos?query=Colares">Gold Card</a></li>
+    <nav class="bg-blue-900">
+        <ul class="flex justify-center space-x-4 text-white py-2">
+            <li><a href="/produtos?query=Lift Detox" class="hover:text-orange-500">Lift Detox</a></li>
+            <li><a href="/produtos?query=Croche" class="hover:text-orange-500">Crochê</a></li>
+            <li><a href="/produtos?query=Gold Card" class="hover:text-orange-500">Gold Card</a></li>
+            {% if 'logged_in' in session %}
+                <li><a href="{{ url_for('admin') }}" class="hover:text-orange-500">Admin</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}" class="hover:text-orange-500">Entrar</a></li>
+            {% endif %}
         </ul>
     </nav>
 
     <!-- Conteúdo Principal -->
-    <main class="content">
+    <main class="flex-grow container mx-auto py-8">
         <!-- Área de Mensagens -->
         {% with messages = get_flashed_messages(with_categories=True) %}
             {% if messages %}
-                <div class="flash-messages">
+                <div class="max-w-xl mx-auto mb-8">
                     {% for category, message in messages %}
-                        <div class="flash-message {{ category }}">
+                        <div class="p-4 rounded-lg {{ 'bg-green-200 text-green-700' if category == 'success' else 'bg-red-200 text-red-700' }}">
                             {{ message }}
                         </div>
                     {% endfor %}
@@ -51,80 +57,83 @@
             {% endif %}
         {% endwith %}
 
-        <div class="admin-section">
-            <h2>Adicionar Novo Produto</h2>
-            <form class="admin-form" method="POST" enctype="multipart/form-data">
-                <input type="text" name="nome" placeholder="Nome" required>
-                <textarea name="descricao" placeholder="Descrição" required></textarea>
-                <input type="text" name="preco" placeholder="Preço" required>
-                <input type="text" name="link" placeholder="Link" required>
-                <input type="file" name="imagem" accept="image/*">
-                <button type="submit" name="add">Adicionar Produto</button>
+        <div class="bg-white shadow-md rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Adicionar Novo Produto</h2>
+            <form class="space-y-4" method="POST" enctype="multipart/form-data">
+                <input type="text" name="nome" placeholder="Nome" required class="w-full p-2 border border-gray-300 rounded-lg">
+                <textarea name="descricao" placeholder="Descrição" required class="w-full p-2 border border-gray-300 rounded-lg h-32"></textarea>
+                <input type="text" name="preco" placeholder="Preço" required class="w-full p-2 border border-gray-300 rounded-lg">
+                <input type="text" name="link" placeholder="Link" required class="w-full p-2 border border-gray-300 rounded-lg">
+                <input type="file" name="imagem" accept="image/*" class="w-full p-2 border border-gray-300 rounded-lg">
+                <button type="submit" name="add" class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Adicionar Produto</button>
             </form>
         </div>
 
-        <div class="admin-section">
-            <h2>Atualizar Produto</h2>
-            <form class="admin-form" method="POST" enctype="multipart/form-data">
-                <input type="number" name="id" placeholder="ID" required>
-                <input type="text" name="nome" placeholder="Nome" required>
-                <textarea name="descricao" placeholder="Descrição" required></textarea>
-                <input type="text" name="preco" placeholder="Preço" required>
-                <input type="text" name="link" placeholder="Link" required>
-                <input type="file" name="imagem" accept="image/*">
-                <button type="submit" name="update">Atualizar Produto</button>
+        <div class="bg-white shadow-md rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Atualizar Produto</h2>
+            <form class="space-y-4" method="POST" enctype="multipart/form-data">
+                <input type="number" name="id" placeholder="ID" required class="w-full p-2 border border-gray-300 rounded-lg">
+                <input type="text" name="nome" placeholder="Nome" required class="w-full p-2 border border-gray-300 rounded-lg">
+                <textarea name="descricao" placeholder="Descrição" required class="w-full p-2 border border-gray-300 rounded-lg h-32"></textarea>
+                <input type="text" name="preco" placeholder="Preço" required class="w-full p-2 border border-gray-300 rounded-lg">
+                <input type="text" name="link" placeholder="Link" required class="w-full p-2 border border-gray-300 rounded-lg">
+                <input type="file" name="imagem" accept="image/*" class="w-full p-2 border border-gray-300 rounded-lg">
+                <button type="submit" name="update" class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Atualizar Produto</button>
             </form>
         </div>
 
-        <div class="admin-section">
-            <h2>Deletar Produto</h2>
-            <form class="admin-form" method="POST">
-                <input type="number" name="id" placeholder="ID" required>
-                <button type="submit" name="delete">Deletar Produto</button>
+        <div class="bg-white shadow-md rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Deletar Produto</h2>
+            <form class="space-y-4" method="POST">
+                <input type="number" name="id" placeholder="ID" required class="w-full p-2 border border-gray-300 rounded-lg">
+                <button type="submit" name="delete" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-500">Deletar Produto</button>
             </form>
         </div>
 
-        <div class="admin-section">
-            <h2>Produtos Cadastrados</h2>
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Imagem</th>
-                        <th>Nome</th>
-                        <th>Preço</th>
-                        <th>Link</th>
-                        <th>ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for produto in produtos %}
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">Produtos Cadastrados</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead>
                         <tr>
-                            <td>
-                                {% if produto['imagem'] %}
-                                    <img src="{{ url_for('get_image', id=produto['id']) }}" alt="{{ produto['nome'] }}" class="product-image">
-                                {% else %}
-                                    <img src="{{ url_for('static', filename='images/default-product.jpg') }}" alt="{{ produto['nome'] }}" class="product-image">
-                                {% endif %}
-                            </td>
-                            <td>{{ produto['nome'] }}</td>
-                            <td>R$ {{ produto['preco'] }}</td>
-                            <td><a href="{{ produto['link'] }}" target="_blank" class="product-link">Link</a></td>
-                            <td>{{ produto['id'] }}</td>
+                            <th class="px-6 py-3 bg-blue-900 text-white text-left text-sm font-medium">Imagem</th>
+                            <th class="px-6 py-3 bg-blue-900 text-white text-left text-sm font-medium">Nome</th>
+                            <th class="px-6 py-3 bg-blue-900 text-white text-left text-sm font-medium">Preço</th>
+                            <th class="px-6 py-3 bg-blue-900 text-white text-left text-sm font-medium">Link</th>
+                            <th class="px-6 py-3 bg-blue-900 text-white text-left text-sm font-medium">ID</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for produto in produtos %}
+                            <tr class="border-b">
+                                <td class="px-6 py-4">
+                                    {% if produto['imagem'] %}
+                                        <img src="{{ url_for('get_image', id=produto['id']) }}" alt="{{ produto['nome'] }}" class="w-24 h-auto rounded-md object-cover">
+                                    {% else %}
+                                        <img src="{{ url_for('static', filename='images/default-product.jpg') }}" alt="{{ produto['nome'] }}" class="w-24 h-auto rounded-md object-cover">
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4">{{ produto['nome'] }}</td>
+                                <td class="px-6 py-4">R$ {{ produto['preco'] }}</td>
+                                <td class="px-6 py-4"><a href="{{ produto['link'] }}" target="_blank" class="text-blue-600 hover:underline">Link</a></td>
+                                <td class="px-6 py-4">{{ produto['id'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 
     <!-- Rodapé fixo -->
-    <footer class="footer">
-        <div class="footer-content">
-            <h3>Contatos</h3>
-            <a href="https://wa.me/63984422453?text=Olá%20vim%20do%20site%20e%20preciso%20de%20ajuda" target="_blank">WhatsApp</a>
-            <a href="https://github.com/sharktank-tech">Contato Dev</a>
-            <a href="{{ url_for('sobre') }}">Sobre</a>
-            <p>&copy; 2024 TudoHon Todos os direitos reservados.</p>
+    <footer class="bg-black text-white py-4">
+        <div class="container mx-auto text-center">
+            <h3 class="text-xl mb-2">Contatos</h3>
+            <div class="flex justify-center space-x-4 mb-2">
+                <a href="https://wa.me/63984422453?text=Olá%20vim%20do%20site%20e%20preciso%20de%20ajuda" target="_blank" class="hover:underline">WhatsApp</a>
+                <a href="https://github.com/sharktank-tech" class="hover:underline">GitHub</a>
+            </div>
+            <p class="text-sm">&copy; 2024 TudoHon. Todos os direitos reservados.</p>
         </div>
     </footer>
 </body>

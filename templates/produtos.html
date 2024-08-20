@@ -9,54 +9,56 @@
     <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/x-icon">
     <title>TudoHon - Produtos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/produtos.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
+
     <!-- Cabeçalho com a Barra de Pesquisa -->
-    <header class="header">
-        <div class="header-content">
+    <header class="bg-blue-900 text-black py-4">
+        <div class="flex items-center justify-center relative px-4">
             <!-- Logo -->
-            <div class="logo">
-                <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo TudoHon"></a>
+            <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+                <a href="/"><img src="static/images/logo.png" alt="Logo TudoHon" class="h-24"></a>
             </div>
             <!-- Barra de Pesquisa -->
-            <form class="search-container" method="get" action="{{ url_for('produtos') }}">
-                <input type="text" name="query" placeholder="Pesquisar..." value="{{ query }}" class="search-input">
-                <button class="search-button" type="submit">Buscar</button>
+            <form class="flex-grow flex justify-center" method="get" action="{{ url_for('produtos') }}">
+                <input type="text" name="query" placeholder="Pesquisar..." value="{{ query }}" class="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 flex-grow max-w-xl">
+                <button class="bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" type="submit">Buscar</button>
             </form>
         </div>
     </header>
 
     <!-- Barra de navegação -->
-    <nav>
-        <ul>
-            <li><a href="/produtos?query=Detox">Lift Detox</a></li>
-            <li><a href="/produtos?query=Croche">Crochê</a></li>
-            <li><a href="/produtos?query=Gold Card">Gold Card</a></li>
+    <nav class="bg-blue-900">
+        <ul class="flex justify-center space-x-4 text-white py-2">
+            <li><a href="/produtos?query=Lift Detox" class="hover:text-orange-500">Lift Detox</a></li>
+            <li><a href="/produtos?query=Croche" class="hover:text-orange-500">Crochê</a></li>
+            <li><a href="/produtos?query=Gold Card" class="hover:text-orange-500">Gold Card</a></li>
             {% if 'logged_in' in session %}
-                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+                <li><a href="{{ url_for('admin') }}" class="hover:text-orange-500">Admin</a></li>
             {% else %}
-                <li><a href="{{ url_for('login') }}">Entrar</a></li
+                <li><a href="{{ url_for('login') }}" class="hover:text-orange-500">Entrar</a></li>
             {% endif %}
         </ul>
     </nav>
 
     <!-- Conteúdo Principal -->
-    <main class="content">
-        <section class="produto-lista">
-            <h2>Produtos Disponíveis</h2>
-            <div class="produtos">
+    <main class="container mx-auto p-4 flex-grow">
+        <section class="bg-white shadow-md rounded-md p-6">
+            <h2 class="text-2xl font-bold mb-6">Produtos Disponíveis</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for produto in produtos %}
-                    <div class="produto-item">
+                    <div class="bg-gray-50 rounded-md shadow p-4">
                         <div class="produto-info">
                             {% if produto['imagem'] %}
-                                <img src="{{ url_for('get_image', id=produto['id']) }}" alt="{{ produto['nome'] }}" class="product-image">
+                                <img src="{{ url_for('get_image', id=produto['id']) }}" alt="{{ produto['nome'] }}" class="w-full h-48 object-cover rounded-md mb-4">
                             {% else %}
-                                <img src="{{ url_for('static', filename='images/default-product.jpg') }}" alt="{{ produto['nome'] }}" class="product-image">
+                                <img src="{{ url_for('static', filename='images/default-product.jpg') }}" alt="{{ produto['nome'] }}" class="w-full h-48 object-cover rounded-md mb-4">
                             {% endif %}
-                            <h3>{{ produto['nome'] }}</h3>
-                            <p>{{ produto['descricao'] }}</p>
-                            <p><span class="label-price">Preço:</span> <span class="price">R$ {{ produto['preco'] }}</span></p>
-                            <a href="{{ produto['link'] }}" target="_blank">Comprar</a>
+                            <h3 class="text-xl font-semibold">{{ produto['nome'] }}</h3>
+                            <p class="text-gray-700 mb-4">{{ produto['descricao'] }}</p>
+                            <p class="text-lg font-bold mb-2">R$ {{ produto['preco'] }}</p>
+                            <a href="{{ produto['link'] }}" target="_blank" class="text-blue-500 hover:underline">Comprar</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -65,14 +67,15 @@
     </main>
 
     <!-- Rodapé -->
-    <footer class="footer">
-        <div class="footer-content">
-            <h3>Contatos</h3>
-            <a href="https://wa.me/63984422453?text=Olá%20vim%20do%20site%20e%20preciso%20de%20ajuda" target="_blank">WhatsApp</a>
-            <a href="https://github.com/sharktank-tech">Contato Dev</a>
-            <a href="{{ url_for('sobre') }}">Sobre</a>
-            <p>&copy; 2024 TudoHon Todos os direitos reservados.</p>
+    <footer class="bg-gray-800 text-white p-6">
+        <div class="container mx-auto text-center">
+            <h3 class="text-lg font-bold mb-4">Contatos</h3>
+            <a href="https://wa.me/63984422453?text=Olá%20vim%20do%20site%20e%20preciso%20de%20ajuda" target="_blank" class="block hover:underline">WhatsApp</a>
+            <a href="https://github.com/sharktank-tech" target="_blank" class="block hover:underline">Contato Dev</a>
+            <a href="{{ url_for('sobre') }}" class="block hover:underline">Sobre</a>
+            <p class="mt-4">&copy; 2024 TudoHon Todos os direitos reservados.</p>
         </div>
     </footer>
+
 </body>
 </html>

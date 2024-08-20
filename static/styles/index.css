@@ -14,17 +14,8 @@ body {
 .header {
     background-color: #0a2799;
     color: white;
-    padding: 25px 0; /* Reduzido o padding superior e inferior */
+    padding: 20px 0; /* Ajustado para melhor visualização */
     position: relative; /* Necessário para posicionamento absoluto dos elementos internos */
-}
-
-/* Container do cabeçalho */
-.header-content {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Centraliza a barra de pesquisa */
-    padding: 0 20px; /* Adiciona espaço nas laterais do cabeçalho */
-    position: relative;
 }
 
 /* Logo */
@@ -36,17 +27,10 @@ body {
 }
 
 .logo img {
-    height: 100px; /* Aumenta o tamanho da logo */
+    height: 80px; /* Ajuste o tamanho da logo */
 }
 
 /* Estilos para a Barra de Pesquisa */
-.search-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
 .search-input {
     padding: 10px;
     font-size: 16px;
@@ -68,19 +52,6 @@ body {
 
 .search-button:hover {
     background-color: #D98B24;
-}
-
-/* Estilos para o Conteúdo Principal */
-.content {
-    padding: 20px;
-    text-align: center;
-    flex: 1; /* Faz com que o conteúdo principal ocupe o espaço disponível */
-}
-
-.content h1 {
-    color: #c5a402;
-    font-size: 24px;
-    margin-bottom: 10px;
 }
 
 /* Estilos para a barra de navegação */
@@ -110,79 +81,18 @@ nav ul li a {
 
 nav ul li a:hover {
     color: #ff4000;
-    text-decoration: none;
-}
-
-/* Estilos para o slideshow */
-.slideshow-container {
-    position: relative;
-    max-width: 100%;
-    margin: auto;
-}
-
-.mySlides {
-    display: none;
-    position: relative;
-}
-
-.mySlides img {
-    width: 100%;
-    margin: 0;
-    object-fit: cover; /* Mantém o aspecto da imagem */
-}
-
-.fade {
-    animation-name: fade;
-    animation-duration: 1.5s;
-}
-
-@keyframes fade {
-    from { opacity: .4 }
-    to { opacity: 1 }
-}
-
-/* Estilos para os botões de navegação */
-.prev, .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    width: auto;
-    padding: 16px;
-    margin-top: -22px;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-}
-
-.next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
-}
-
-.prev:hover, .next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-/* Slides de desktop */
-.desktop-slide {
-    display: block; /* Mostra os slides de desktop */
-}
-
-/* Slides de celular */
-.mobile-slide {
-    display: none; /* Oculta os slides de celular por padrão */
 }
 
 /* Rodapé fixo no final da página */
 .footer {
     background-color: #000000;
     color: white;
-    padding: 5px 0;
+    padding: 10px 0;
     text-align: center;
     width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }
 
 .footer-content {
@@ -210,14 +120,6 @@ nav ul li a:hover {
 
 /* Media Query para dispositivos móveis */
 @media (max-width: 600px) {
-    .content h1 {
-        font-size: 15px;
-    }
-
-    nav ul li {
-        margin: 0 1px; /* Ajusta o espaçamento entre os links para dispositivos móveis */
-    }
-
     .search-input {
         width: 100%; /* Faz com que o campo de pesquisa ocupe toda a largura disponível em dispositivos móveis */
     }
@@ -238,6 +140,10 @@ nav ul li a:hover {
         height: 100px; /* Ajuste o tamanho do logo para dispositivos móveis */
     }
 
+    .header {
+        padding-top: 60px; /* Espaço para acomodar a logo acima da barra de pesquisa */
+    }
+
     .footer-content {
         gap: 1px;
     }
@@ -248,14 +154,14 @@ nav ul li a:hover {
 
     .footer-content p {
         margin-top: 1px;
-        font-size: 14px;
+        font-size: 12px;
     }
 
-    .desktop-slide {
-        display: none; /* Oculta slides de desktop em dispositivos móveis */
+    nav ul li {
+        margin: 0 5px; /* Espaçamento reduzido para dispositivos móveis */
     }
 
-    .mobile-slide {
-        display: block; /* Mostra slides móveis em dispositivos móveis */
+    nav ul li a {
+        padding: 1px;
     }
 }

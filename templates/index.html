@@ -8,111 +8,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="static/images/logo.png" type="image/x-icon">
     <title>TudoHon Produtos</title>
-    <link rel="stylesheet" href="static/styles/index.css">
-    <!-- Adicionando CSS para o slideshow -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="static/styles/slideshow.css">
+    <link rel="stylesheet" href="static/styles/index.css">
+    
 </head>
-<body>
+<body class="flex flex-col min-h-screen bg-gray-100 text-gray-900">
+
     <!-- Cabeçalho com a Barra de Pesquisa -->
-    <header class="header">
-        <div class="header-content">
+    <header class="bg-blue-900 text-black py-4">
+        <div class="flex items-center justify-center relative px-4">
             <!-- Logo -->
-            <div class="logo">
-                <a href="/"><img src="static/images/logo.png" alt="Logo TudoHon"></a>
+            <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+                <a href="/"><img src="static/images/logo.png" alt="Logo TudoHon" class="h-24"></a>
             </div>
             <!-- Barra de Pesquisa -->
-            <form class="search-container" method="get" action="/produtos">
-                <input type="text" name="query" placeholder="Pesquisar..." class="search-input">
-                <button class="search-button" type="submit">Buscar</button>
+            <form class="flex-grow flex justify-center" method="get" action="{{ url_for('produtos') }}">
+                <input type="text" name="query" placeholder="Pesquisar..." value="{{ query }}" class="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 flex-grow max-w-xl">
+                <button class="bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" type="submit">Buscar</button>
             </form>
         </div>
     </header>
 
     <!-- Barra de navegação -->
-    <nav>
-        <ul>
-            <li><a href="/produtos?query=Detox">Lift Detox</a></li>
-            <li><a href="/produtos?query=Croche">Crochê</a></li>
-            <li><a href="/produtos?query=Gold Card">Gold Card</a></li>
+    <nav class="bg-blue-900">
+        <ul class="flex justify-center space-x-4 text-white py-2">
+            <li><a href="/produtos?query=Detox" class="hover:text-orange-500">Lift Detox</a></li>
+            <li><a href="/produtos?query=Croche" class="hover:text-orange-500">Crochê</a></li>
+            <li><a href="/produtos?query=Gold Card" class="hover:text-orange-500">Gold Card</a></li>
             {% if 'logged_in' in session %}
-                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+                <li><a href="{{ url_for('admin') }}" class="hover:text-orange-500">Admin</a></li>
             {% else %}
-                <li><a href="{{ url_for('login') }}">Entrar</a></li
+                <li><a href="{{ url_for('login') }}" class="hover:text-orange-500">Entrar</a></li>
             {% endif %}
         </ul>
     </nav>
 
     <!-- Conteúdo Principal -->
-    <main class="content">
+    <main class="flex-grow p-4 text-center">
         <!-- Slideshow -->
-        <div class="slideshow-container">
+        <div class="slideshow-container relative max-w-full mx-auto">
             <!-- Slides para desktop -->
             <div class="mySlides fade desktop-slide">
                 <a href="https://app.monetizze.com.br/r/ARF24593382">
-                    <img src="static/images/slides/pc/croche.jpg.png" style="width:100%">
+                    <img src="static/images/slides/pc/croche.jpg.png" class="w-full object-cover">
                 </a>
-                <!-- Botão anterior -->
-                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                <!-- Botão próximo -->
-                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                <a class="prev absolute top-1/2 left-0 transform -translate-y-1/2 text-white text-2xl font-bold p-2 cursor-pointer" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next absolute top-1/2 right-0 transform -translate-y-1/2 text-white text-2xl font-bold p-2 cursor-pointer" onclick="plusSlides(1)">&#10095;</a>
             </div>
 
             <div class="mySlides fade desktop-slide">
                 <a href="https://app.monetizze.com.br/r/ABA24593351">
-                    <img src="static/images/slides/pc/gold-card.png" style="width:100%">
+                    <img src="static/images/slides/pc/gold-card.png" class="w-full object-cover">
                 </a>
-                <!-- Botão anterior -->
-                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                <!-- Botão próximo -->
-                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                <a class="prev absolute top-1/2 left-0 transform -translate-y-1/2 text-white text-2xl font-bold p-2 cursor-pointer" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next absolute top-1/2 right-0 transform -translate-y-1/2 text-white text-2xl font-bold p-2 cursor-pointer" onclick="plusSlides(1)">&#10095;</a>
             </div>
-
 
             <div class="mySlides fade desktop-slide">
                 <a href="https://app.monetizze.com.br/r/AVB19237835">
-                    <img src="static/images/slides/pc/lift-detox.png" style="width:100%">
+                    <img src="static/images/slides/pc/lift-detox.png" class="w-full object-cover">
                 </a>
-                <!-- Botão anterior -->
-                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                <!-- Botão próximo -->
-                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                <a class="prev absolute top-1/2 left-0 transform -translate-y-1/2 text-white text-2xl font-bold p-2 cursor-pointer" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next absolute top-1/2 right-0 transform -translate-y-1/2 text-white text-2xl font-bold p-2 cursor-pointer" onclick="plusSlides(1)">&#10095;</a>
             </div>
 
-               <!-- Slides para celular -->
-                <div class="mySlides fade mobile-slide">
-                    <img src="static/images/slides/celular/teste-1.jpg" style="width:100%">
-                    <!-- Botão anterior -->
-                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                    <!-- Botão próximo -->
-                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-                </div>
+            <!-- Slides para celular -->
+            <div class="mySlides fade mobile-slide">
+                <img src="static/images/slides/celular/teste-1.jpg" class="w-full object-cover">
+                <a class="prev absolute top-1/2 left-0 transform -translate-y-1/2 text-white text-2xl font-bold p-2 cursor-pointer" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next absolute top-1/2 right-0 transform -translate-y-1/2 text-white text-2xl font-bold p-2 cursor-pointer" onclick="plusSlides(1)">&#10095;</a>
+            </div>
 
-                <div class="mySlides fade mobile-slide">
-                    <img src="static/images/slides/celular/slide-ce-im-2.jpg" style="width:100%">
-                    <!-- Botão anterior -->
-                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                    <!-- Botão próximo -->
-                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-                </div>
+            <div class="mySlides fade mobile-slide">
+                <img src="static/images/slides/celular/slide-ce-im-2.jpg" class="w-full object-cover">
+                <a class="prev absolute top-1/2 left-0 transform -translate-y-1/2 text-white text-2xl font-bold p-2 cursor-pointer" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next absolute top-1/2 right-0 transform -translate-y-1/2 text-white text-2xl font-bold p-2 cursor-pointer" onclick="plusSlides(1)">&#10095;</a>
+            </div>
 
-                <div class="mySlides fade mobile-slide">
-                    <img src="static/images/slides/celular/imagem-ce-1.png" style="width:100%">
-                    <!-- Botão anterior -->
-                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                    <!-- Botão próximo -->
-                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-                </div>
+            <div class="mySlides fade mobile-slide">
+                <img src="static/images/slides/celular/imagem-ce-1.png" class="w-full object-cover">
+                <a class="prev absolute top-1/2 left-0 transform -translate-y-1/2 text-white text-2xl font-bold p-2 cursor-pointer" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next absolute top-1/2 right-0 transform -translate-y-1/2 text-white text-2xl font-bold p-2 cursor-pointer" onclick="plusSlides(1)">&#10095;</a>
+            </div>
         </div>
     </main>
 
     <!-- Rodapé fixo -->
-    <footer class="footer">
-        <div class="footer-content">
-            <h3>Contatos</h3>
-            <a href="https://wa.me/63984422453?text=Olá%20vim%20do%20site%20e%20preciso%20de%20ajuda" target="_blank">WhatsApp</a>
-            <a href="https://github.com/sharktank-tech">Contato Dev</a>
-            <a href="/sobre">Sobre</a>
-            <p>&copy; 2024 TudoHon Todos os direitos reservados.</p>
+    <footer class="bg-black text-white text-center p-2">
+        <div class="flex flex-col items-center gap-1">
+            <h3 class="text-lg font-bold">Contatos</h3>
+            <a href="https://wa.me/63984422453?text=Olá%20vim%20do%20site%20e%20preciso%20de%20ajuda" target="_blank" class="hover:underline">WhatsApp</a>
+            <a href="https://github.com/sharktank-tech" target="_blank" class="hover:underline">Contato Dev</a>
+            <a href="/sobre" class="hover:underline">Sobre</a>
+            <p class="mt-4 text-sm text-gray-400">&copy; 2024 TudoHon Todos os direitos reservados.</p>
         </div>
     </footer>
 
